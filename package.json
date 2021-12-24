@@ -1,0 +1,36 @@
+{
+  "name": "skillbox-ts-course",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "init": "npm i",
+    "test": "npm run test:unit",
+    "test:unit": "jest",
+    "task1": "ts-node ./src/task1/task1.ts",
+    "test:task1": "jest /tests/task1",
+    "task2": "ts-node ./src/task2/task2",
+    "test:task2": "jest /tests/task2",
+    "task3": "ts-node ./src/task3/task3.ts",
+    "test:task3": "jest /tests/task3",
+    "task4": "ts-node ./src/task4/task4.ts",
+    "test:task4": "jest /tests/task4",
+    "task5": "ts-node ./src/task5/task5.ts",
+    "test:task5": "jest /tests/task5",
+    "task6": "ts-node ./src/task6/task6.ts",
+    "test:task6": "jest /tests/task6",
+    "test:watch": "npm run jest -- --watch"
+  },
+  "devDependencies": {
+    "@types/jest": "27.0.2",
+    "@types/node": "16.11.6",
+    "@typescript-eslint/eslint-plugin": "5.2.0",
+    "@typescript-eslint/parser": "5.2.0",
+    "eslint": "8.1.0",
+    "jest": "27.3.1",
+    "ts-jest": "27.0.7",
+    "ts-node": "10.4.0",
+    "typescript": "4.4.4"
+  }
+}
