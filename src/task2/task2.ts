@@ -19,16 +19,9 @@ type SomeOtherResponse = {
 }
 
 
-type UserReponseAfterApiRefactoring = {
-    data: {
-        id: number,
-        name: string,
-        registrationDate: string,
-    },
-    meta: { // can be any meta object
-        trackId: string,
-        trackerUrl: string,
-    }
+type UserReponseAfterApiRefactoring<T, U> = {
+    data: T,
+    meta: U,
 }
 
 type MetaTrackMessage = {
@@ -142,21 +135,21 @@ class SomeExternalApiAfterRefactoring {
             }
         }
     }
-    static async getUsers(): Promise<unknown> {
+    static async getUsers(): Promise<UserReponseAfterApiRefactoring<UserResponse[], MetaTrackMessage | LoadMetaMessage>> {
         return {
             data: await SomeExternalApi.getUsers(),
             meta: this.getRandomMeta(),
         };
     }
 
-    static async auth(): Promise<unknown> {
+    static async auth(): Promise<UserReponseAfterApiRefactoring<AuthResponse, MetaTrackMessage | LoadMetaMessage>> {
         return {
             data: await SomeExternalApi.auth(),
             meta: this.getRandomMeta(),
         }
     }
 
-    static async getSomeOther(): Promise<unknown> {
+    static async getSomeOther(): Promise<UserReponseAfterApiRefactoring<SomeOtherResponse[], MetaTrackMessage | LoadMetaMessage>> {
         return {
             data: await SomeExternalApi.getSomeOther(),
             meta: this.getRandomMeta(),
@@ -165,8 +158,6 @@ class SomeExternalApiAfterRefactoring {
 }
 
 export class ApiProvider {
-    constructor() {}
-
     async getUsers(): Promise<UserResponse[]> {
         return SomeExternalApi.getUsers();
     }
@@ -181,16 +172,19 @@ export class ApiProvider {
 }
 
 export class ApiProviderAfterRefactoring {
-    getSomeOther() {
-        return undefined;
+    async getSomeOther(): Promise<SomeOtherResponse[]> {
+        const { data } = await SomeExternalApiAfterRefactoring.getSomeOther();
+        return data;
     }
 
-    getUsers() {
-        return undefined;
+    async getUsers(): Promise<UserResponse[]> {
+        const { data } = await SomeExternalApiAfterRefactoring.getUsers();
+        return data;
     }
 
-    auth() {
-        return undefined;
+    async auth(): Promise<AuthResponse> {
+        const { data } = await SomeExternalApiAfterRefactoring.auth();
+        return data;
     }
 }
 

@@ -1,4 +1,5 @@
 import { getOldestItem } from "../../src/task1/task1";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {FirstArgument, IsTypeEqual, typeAssert} from '../type-assertions';
 
@@ -37,11 +38,11 @@ const testItems2: TestItem2[] = [
 describe('task', () => {
     describe('getOldestItem', () => {
         it('should work correct for sample items', () => {
-            expect(getOldestItem<TestItem>(testItems)).toStrictEqual({age: 3});
+            expect(getOldestItem(testItems)).toStrictEqual({age: 3});
         });
 
         it('should work for extended type', () => {
-            expect(getOldestItem<TestItem2>(testItems2)).toStrictEqual({someField: 234, age: 5});
+            expect(getOldestItem(testItems2)).toStrictEqual({someField: 234, age: 5});
         });
 
         it('should work correct for empty items', () => {
