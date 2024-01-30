@@ -1,21 +1,29 @@
 export class MyArray<T> {
-    constructor(public elements?: Array<T>) {}
+    elements: T[] | [] = [];
+
+    constructor(array?: T[]) {
+        if (array) {
+            this.elements = array;
+        }
+    }
 
     isObject(item: unknown): item is object {
         return typeof item === 'object' && item !== null;
     }
 
     areElementsEqual(index1: number, index2: number): boolean {
+        const element1 = this.elements[index1];
+        const element2 = this.elements[index2];
         if (Array.isArray(this.elements)) {
-            if (typeof this.elements[index1] !== typeof this.elements[index2]) {
+            if (typeof element1 !== typeof element2) {
                 return false;
             } else {
-                if (this.isObject(this.elements[index1]) && this.isObject(this.elements[index2])) {
-                    if (Object.keys(this.elements[index1] ?? {}).length !== Object.keys(this.elements[index2] ?? {}).length) {
+                if (this.isObject(element1) && this.isObject(element2)) {
+                    if (Object.keys(element1).length !== Object.keys(element2).length) {
                         return false;
                     } else {
-                        for (const [key] of Object.entries(this.elements[index1] ?? {})) {
-                            if (key in (this.elements[index2] ?? {}) && (this.elements[index1] ?? {})[key] === (this.elements[index2] ?? {})[key]) {
+                        for (const [key] of Object.entries(element1)) {
+                            if (key in element2 && (this.elements[index1] ?? {})[key] === (this.elements[index2] ?? {})[key]) {
                                 return true;
                             } else {
                                 return false;
@@ -23,10 +31,9 @@ export class MyArray<T> {
                         }
                     }
                 } else {
-                    return this.elements[index1] === this.elements[index2];
+                    return element1 === element2;
                 }
             }
-
         }
         return false;
     }
