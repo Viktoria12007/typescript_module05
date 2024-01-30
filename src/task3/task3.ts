@@ -22,13 +22,13 @@ export class MyArray<T> {
                     if (Object.keys(element1).length !== Object.keys(element2).length) {
                         return false;
                     } else {
+                        let equal = true;
                         for (const [key] of Object.entries(element1)) {
-                            if (key in element2 && (this.elements[index1] ?? {})[key] === (this.elements[index2] ?? {})[key]) {
-                                return true;
-                            } else {
-                                return false;
+                            if (!(key in element2) || (this.elements[index1] ?? {})[key] !== (this.elements[index2] ?? {})[key] && !this.isObject((this.elements[index1] ?? {})[key]) && !this.isObject((this.elements[index2] ?? {})[key])) {
+                                equal = false;
                             }
                         }
+                        return equal;
                     }
                 } else {
                     return element1 === element2;
@@ -68,8 +68,9 @@ console.log(arr2.flatten());
 console.log(arr2.elements);
 
 // проверка метода areElementsEqual
-const arr3 = new MyArray<object>([{ id: 45, data: { age: 72, color: 'red' }}, { id: 45, data: { age: 72, color: 'red', pet: 'dog'}}, { id: 45, data: { age: 72, color: 'red'}, size: 26}]);
+const arr3 = new MyArray<object>([{ id: 45, data: { age: 72, color: 'red' }}, { id: 45, data: { age: 72, color: 'red', pet: 'dog'}}, { id: 45, data: { age: 72, color: 'red'}, size: 26}, { age:10, color: 'red' }, {  age:10, color: 'green'}]);
 console.log(arr3.areElementsEqual(0, 1));
 console.log(arr3.areElementsEqual(0, 2));
 console.log(arr3.areElementsEqual(0, 22));
+console.log(arr3.areElementsEqual(3, 4));
 console.log(arr3.areElementsEqual(13, 20));
