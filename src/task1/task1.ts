@@ -1,8 +1,6 @@
-type Age<T> = {
-    age: T,
-}
+type Age = { age: number }
 
-type Extend<U> = U & Age<number>
+type Extend<U> = U & Age
 
 type Person = {
     name: string,
@@ -36,7 +34,9 @@ function getOldestBridge(items: Extend<Bridge>[]): Extend<Bridge> | undefined {
 }
 console.debug(getOldestBridge(bridges));
 
-export function getOldestItem(items: Age<number>[]): Age<number> | undefined  {
+export function getOldestItem<T>(items: Extend<T>[]): Extend<T> | undefined  {
     return items.sort((a, b) => b.age - a.age)[0];
 }
-console.debug(getOldestItem([persons, wines, bridges].flat()));
+console.log(getOldestItem<Wine>(wines));
+console.log(getOldestItem<Person>(persons));
+console.log(getOldestItem<Bridge>(bridges));

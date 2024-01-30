@@ -11,29 +11,27 @@ export class MyArray<T> {
         return typeof item === 'object' && item !== null;
     }
 
+    isPrimitive(item: unknown): boolean {
+        return typeof item !== 'object' || item === null;
+    }
+
     areElementsEqual(index1: number, index2: number): boolean {
         const element1 = this.elements[index1];
         const element2 = this.elements[index2];
-        if (Array.isArray(this.elements)) {
-            if (typeof element1 !== typeof element2) {
+        if (this.isObject(element1) && this.isObject(element2)) {
+            if (Object.keys(element1).length !== Object.keys(element2).length) {
                 return false;
-            } else {
-                if (this.isObject(element1) && this.isObject(element2)) {
-                    if (Object.keys(element1).length !== Object.keys(element2).length) {
-                        return false;
-                    } else {
-                        let equal = true;
-                        for (const [key] of Object.entries(element1)) {
-                            if (!(key in element2) || (this.elements[index1] ?? {})[key] !== (this.elements[index2] ?? {})[key] && !this.isObject((this.elements[index1] ?? {})[key]) && !this.isObject((this.elements[index2] ?? {})[key])) {
-                                equal = false;
-                            }
-                        }
-                        return equal;
-                    }
-                } else {
-                    return element1 === element2;
+            }
+            let equal = true;
+            for (const key in element1) {
+                if (!(key in element2) || element1[key] !== element2[key] && this.isPrimitive(element1[key]) && this.isPrimitive(element2[key])) {
+                    equal = false;
                 }
             }
+            return equal;
+        }
+        if (this.isPrimitive(element1) && this.isPrimitive(element2)) {
+            return element1 === element2;
         }
         return false;
     }
